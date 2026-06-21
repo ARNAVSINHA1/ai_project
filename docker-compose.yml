@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    environment:
+      - BACKEND_API_URL=http://backend:8080/api/resources
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend-java
+    ports:
+      - '8080:8080'
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/eduflow
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+    depends_on:
+      - postgres
+
+  ai-service:
+    build: ./python-ai
+    ports:
+      - '8001:8001'
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: eduflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
