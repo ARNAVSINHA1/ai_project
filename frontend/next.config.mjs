@@ -1,8 +1,4 @@
 const nextConfig = {
-  reactStrictMode: true,
-  output: 'export',
-  experimental: {
-    serverActions: true
-  }
+  reactStrictMode: true
 };
 export default nextConfig;
